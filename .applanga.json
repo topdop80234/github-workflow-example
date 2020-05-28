@@ -13,6 +13,7 @@
     "push": {
       "source": [
         {
+          "language": "en",
           "file_format": "react_simple_json", 
           "path": "./react_json_sample/en.json"
         }
