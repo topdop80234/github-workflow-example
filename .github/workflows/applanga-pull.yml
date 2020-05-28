@@ -2,6 +2,8 @@ name: "PullTranslations"
 on:
   schedule:
    - cron:  '* 0/1 * * *'
+  repository_dispatch:
+    types: [applanga-pull]
 jobs:
   pull-translation-in:
     runs-on: ubuntu-latest
