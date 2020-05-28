@@ -3,6 +3,9 @@ on:
  push:
    branches:
      - master
+   paths:
+     - react_json_sample/*.json
+   
 jobs:
   push-sources-for-translation:
     runs-on: ubuntu-latest
