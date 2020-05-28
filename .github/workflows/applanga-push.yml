@@ -16,3 +16,4 @@ jobs:
       - name: Push translations to Applanga
         run: applanga push --force
         working-directory: checkout
+        
