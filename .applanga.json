@@ -1,0 +1,22 @@
+{
+  "app": {
+    "access_token": "5ece6f6a9f62210da008fb62!d43f18f2f4b183e45f1cc6a4836ca8f0", 
+    "base_language": "en", 
+    "pull": {
+      "target": [
+        {
+          "file_format": "react_simple_json", 
+          "path": "./react_json_sample/<language>.json"
+        }
+      ]
+    }, 
+    "push": {
+      "source": [
+        {
+          "file_format": "react_simple_json", 
+          "path": "./react_json_sample/en.json"
+        }
+      ]
+    }
+  }
+}
