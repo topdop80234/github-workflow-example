@@ -1,6 +1,6 @@
 # Applanga Github Workflow Integration Example
  
-This repository showcases a full cycle github workflow integration with the [Applanga Localization Platform](https://www.applanga.com).
+This repository showcases a full cycle [github workflow setup](https://github.com/applanga/setup-applanga-cli) integration with the [Applanga Localization Platform](https://www.applanga.com).
 
 The benefit of using github workflows is that you can automate your localization process without the need to share any repository credentials with your localization provider.
 
