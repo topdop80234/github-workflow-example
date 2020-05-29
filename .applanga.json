@@ -6,7 +6,7 @@
         {
           "file_format": "react_simple_json", 
           "exclude_languages": ["en"],
-          "path": "./react_json_sample/<language>.json"
+          "path": "./react_json_sample/<language>/translations.json"
         }
       ]
     }, 
@@ -15,7 +15,7 @@
         {
           "language": "en",
           "file_format": "react_simple_json", 
-          "path": "./react_json_sample/en.json"
+          "path": "./react_json_sample/en/translations.json"
         }
       ]
     }
