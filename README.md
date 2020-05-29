@@ -97,7 +97,7 @@ The configuration needs a `"access_token"` which uniqly identifies your project 
 The included config is set-up to push all changes to any `*.json` file under the directory `react_json_sample/en/` to Applanga and pull all other languages from Applanga as well as create the needed directorys on the daily schedule or via the commandline request as described above.
 
 
-The example configuration is set-up to use the `"react_simple_json"` file format but Applanga supports a wide variety of other file formats and folder structures for more details see the [CLI Documentation](https://github.com/applanga/applanga-cli).
+The example configuration is set-up to use the `"react_simple_json"` file format but Applanga supports a wide variety of other file formats and folder structures. Also the example works with only one file per language if you need to support more you need to provide a `tag` per file for details on that and more see the [Applanga CLI Documentation](https://github.com/applanga/applanga-cli).
 
 ```json 
 {
