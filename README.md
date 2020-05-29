@@ -74,7 +74,7 @@ jobs:
 
 ---
 ## Manual Translation Pull
-**Optionally** the `applanga-pull` workflow is configured with a `repository_dispatch` Apito be triggered manually from the commandline to retrieve the latest translations at any time like this:
+**Optionally** the `applanga-pull` workflow can also be triggered manually through a [Github REST API](https://developer.github.com/v3/repos/#create-a-repository-dispatch-event)`repository_dispatch` *POST* request with `"event_type":"applanga-pull"`. This could be done from the commandline like this:
 
 * Ensure `curl` is installed. (https://curl.haxx.se/)
 * In the terminal of your choice execute this `curl` request, replacing `:owner` and `:repo` with the appropriate values for your repository and `$PERSONAL_ACCESS_TOKEN` with a [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). You must use a personal access token with the `repo` scope.
