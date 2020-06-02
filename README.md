@@ -1,6 +1,6 @@
 # Applanga Github Workflow Integration Example
  
-This repository showcases a full cycle [github workflow setup](https://github.com/applanga/setup-applanga-cli) integration with the [Applanga Localization Platform](https://www.applanga.com).
+The example [repository](https://github.com/applanga/github-workflow-example) showcases a full cycle [github workflow setup](https://github.com/applanga/setup-applanga-cli) integration with the [Applanga Localization Platform](https://www.applanga.com).
 
 The benefit of using github workflows is that you can automate your localization process without the need to share any repository credentials with your localization provider.
 
@@ -11,7 +11,7 @@ For a more detailed introduction to github worklfows please see the [Github Docu
 ---
 # Workflow Configurations
 
-This Repository contains 2 workflows. Running and past workflow actions can be tracked under the [**Actions** Tab](https://github.com/applanga/github-workflow-example/actions).
+The [repository](https://github.com/applanga/github-workflow-example) contains 2 workflows. Running and past workflow actions can be tracked under the [**Actions** Tab](https://github.com/applanga/github-workflow-example/actions).
 
 [.github/workflows/applanga-push.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-push.yml) will push any `.json` source files under the directory `react_json_sample/en/` to Applanga whenever they are changed in the repository. Depending on your folder structure and file format you need to modify the `paths` for your repository workflow config.
 
