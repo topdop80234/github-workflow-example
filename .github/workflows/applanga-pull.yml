@@ -16,6 +16,8 @@ jobs:
         with:
           version: 1.0.47
       - name: Pull translations from Applanga
+        env: 
+         APPLANGA_ACCESS_TOKEN: ${{ secrets.APPLANGA_ACCESS_TOKEN }}
         run: applanga pull
         working-directory: checkout
       - name: Create Pull Request
