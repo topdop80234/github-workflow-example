@@ -33,8 +33,10 @@ jobs:
           path: 'checkout'
       - uses: applanga/setup-applanga-cli@v1.0.0
         with:
-          version: 1.0.47
+          version: 1.0.48
       - name: Push Sources to Applanga
+        env: 
+         APPLANGA_ACCESS_TOKEN: ${{ secrets.APPLANGA_ACCESS_TOKEN }}
         run: applanga push --force
         working-directory: checkout
 ```
@@ -58,8 +60,10 @@ jobs:
           path: 'checkout'
       - uses: applanga/setup-applanga-cli@v1.0.0
         with:
-          version: 1.0.47
+          version: 1.0.48
       - name: Pull translations from Applanga
+        env: 
+         APPLANGA_ACCESS_TOKEN: ${{ secrets.APPLANGA_ACCESS_TOKEN }}
         run: applanga pull
         working-directory: checkout
       - name: Create Pull Request
@@ -92,7 +96,7 @@ curl -v -H "Accept: application/vnd.github.everest-preview+json" \
 
 Because the workflows make use of the [Applanga Command Interface](https://github.com/applanga/applanga-cli) you also need to add a [.applanga.json](https://github.com/applanga/github-workflow-example/blob/master/.applanga.json) configuration file to your repository. 
 
-The configuration needs a `"access_token"` which uniqly identifies your project and can be found on the **API** section in the Applanga Project Settings in the [Applanga Dashboard](https://dashboard.applanga.com). Select your project, click ***Project Settings***, click on **“Show API Token”** and copy the Token.
+To uniqly identify your project you need to provide your ***API Access Token*** which can be found on the **API** section in the Applanga Project Settings in the [Applanga Dashboard](https://dashboard.applanga.com). Select your project, click ***Project Settings***, click on **“Show API Token”** and copy the Token. The token can be stored as a [Encrypted Repository Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) labeled **APPLANGA\_ACCESS\_TOKEN** or as plain text directly in the config e.g.: `"app": { "access_token": "<YOUR_API_TOKEN>", ... }`.
 
 The included config is set-up to push all changes to `translations.json` file under the directory `react_json_sample/en/` to Applanga and pull all other languages from Applanga as well as create the needed directorys on the daily schedule or via the commandline request as described above.
 
@@ -100,8 +104,7 @@ The example configuration is set-up to use the `"react_simple_json"` file format
 
 ```json 
 {
-  "app": {
-    "access_token": "5ece6f6a9f62210da008fb62!d43f18f2f4b183e45f1cc6a4836ca8f0", 
+  "app": { 
     "pull": {
       "target": [
         {
