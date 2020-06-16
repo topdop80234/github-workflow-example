@@ -17,10 +17,8 @@ jobs:
         with:
           version: 1.0.47
       - name: Push Sources to Applanga
-      - shell: bash
-        env:
+        env: 
          APPLANGA_ACCESS_TOKEN: ${{ secrets.APPLANGA_ACCESS_TOKEN }}
-        run: |
-         applanga push --force
+        run: applanga push --force
         working-directory: checkout
         
