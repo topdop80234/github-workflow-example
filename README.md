@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: 'checkout'
-      - uses: applanga/setup-applanga-cli@v1.0.0
+      - uses: applanga/setup-applanga-cli@v1.0.1
         with:
           version: 1.0.48
       - name: Push Sources to Applanga
@@ -58,7 +58,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: 'checkout'
-      - uses: applanga/setup-applanga-cli@v1.0.0
+      - uses: applanga/setup-applanga-cli@v1.0.1
         with:
           version: 1.0.48
       - name: Pull translations from Applanga
