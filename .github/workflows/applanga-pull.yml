@@ -21,9 +21,10 @@ jobs:
         run: applanga pull
         working-directory: checkout
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v2
+        uses: peter-evans/create-pull-request@v3
         with:
           branch: newTranslations
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: Updated translations
           title: Updated translations 
           body: Pulled in new translations from Applanga portal
