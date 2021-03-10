@@ -6,7 +6,7 @@ The benefit of using github workflows is that you can automate your localization
 
 To use github workflows on your repository you need to create a folder call .github/workflows/ and place the workflow configuration .yml files in there. 
 
-For a more detailed introduction to github worklfows please see the [Github Documentation](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow)
+For a more detailed introduction to github workflows please see the [Github Documentation](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow)
 
 ---
 # Workflow Configurations
