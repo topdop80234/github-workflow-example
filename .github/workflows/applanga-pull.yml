@@ -1,7 +1,5 @@
 name: "Pull Target Files from Applanga"
 on:
-  schedule:
-   - cron:  '* 23 * * *'
   repository_dispatch:
     types: [applanga-pull]
 jobs:
