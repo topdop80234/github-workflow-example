@@ -41,13 +41,12 @@ jobs:
         working-directory: checkout
 ```
 
-[.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) checks once per day if there are new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. 
+[.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) pulls new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. For this to work a `webhook endpoint` has to be configured for the project on Applanga dashboard to trigger the workflow. See `Configure Webhook Endpoint` below for how to configure 
+a webhook endpoint.
 
 ```yaml
 name: "Pull Target Files from Applanga"
 on:
-  schedule:
-   - cron:  '* 23 * * *'
   repository_dispatch:
     types: [applanga-pull]
 jobs:
@@ -78,11 +77,12 @@ jobs:
 ```
 
 ---
-## Manual Translation Pull
-**Optionally** the `applanga-pull` workflow can also be triggered manually through a [Github REST API](https://developer.github.com/v3/repos/#create-a-repository-dispatch-event)`repository_dispatch` *POST* request with `"event_type":"applanga-pull"`. This could be done from the commandline like this:
+## Configure Webhook Endpoint
+To the trigger the `applanga-pull` workflow a webhook endpoint has to configured in the projects settings page on applanga. 
 
-* Ensure `curl` is installed. (https://curl.haxx.se/)
-* In the terminal of your choice execute this `curl` request, replacing `:owner` and `:repo` with the appropriate values for your repository and `$PERSONAL_ACCESS_TOKEN` with a [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). You must use a personal access token with the `repo` scope.
+The webhook is triggered at least 15 minutes from when there is no translation change. This means whenever translation is added or edited a webhook request is scheduled to be sent to all configured endpoints for the project 15 minutes later. The scheduled request will be sent as planned unless there is a new change to translation before the scheduled time, in which case it is rescheduled to be sent 15 minutes later.
+
+The endpoint should be configured to match the following `Github REST API` post request:
 
 ```shell
 curl -v -H "Accept: application/vnd.github.everest-preview+json" \
@@ -90,7 +90,31 @@ curl -v -H "Accept: application/vnd.github.everest-preview+json" \
         https://api.github.com/repos/:owner/:repo/dispatches \
         -d '{"event_type":"applanga-pull"}'
 ```
-***NOTE:*** *Applanga makes its files available through a cdn so after changes on the dashboard you need to wait for 10+ minutes until the updates are available in the target files.*
+
+Here are the steps to setup the `Webhook Endpoint`
+* Login to Applanga dashboard and navigate to the project. Then click on `Project Settings`
+
+![]({{site.baseurl}}assets/images/docu/groups_editapp.png)
+
+* In the settings page scroll down to the section `WEB HOOKS` and click the `Add endpoint` button, this will show a modal
+where the endpoint values can be entered
+![]({{site.baseurl}}assets/images/docu/webhook_settings.png)
+
+The values should be configured to match the preceding curl request. To be sure, please ensure the following
+- `POST` is selected as http method
+- `JSON` is selected in the body tab
+- `{"event_type":"applanga-pull"}` is entered in the `Request body`
+
+![]({{site.baseurl}}assets/images/docu/webhook_endpoint_header.png)
+
+![]({{site.baseurl}}assets/images/docu/webhook_endpoint_body.png)
+
+You can test the configured endpoint to make sure everything works well by clicking the `Test endpoint` button top right.
+If the config is done correctly the test result should look like the screeshot below
+
+![]({{site.baseurl}}assets/images/docu/webhook_endpoint_test.png)
+
+Click `Save endpoint` and you're done!.
 
 ---
 # Applanga Configuration
