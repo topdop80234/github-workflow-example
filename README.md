@@ -41,7 +41,7 @@ jobs:
         working-directory: checkout
 ```
 
-[.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) pulls new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. For this to work a `webhook endpoint` has to be configured for the project on Applanga dashboard to trigger the workflow. See `Configure Webhook Endpoint` below for how to configure 
+[.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) pulls new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. For this to work a **Webhook Endpoint** has to be configured for the project on Applanga dashboard to trigger the workflow. See [Configure Webhook Endpoint](#configure-webhook-endpoint) below for how to configure 
 a webhook endpoint.
 
 ```yaml
@@ -91,30 +91,30 @@ curl -v -H "Accept: application/vnd.github.everest-preview+json" \
         -d '{"event_type":"applanga-pull"}'
 ```
 
-Here are the steps to setup the `Webhook Endpoint`
-* Login to Applanga dashboard and navigate to the project. Then click on `Project Settings`
+Here are the steps to setup the **Webhook Endpoint**
+* Login to Applanga dashboard and navigate to the project. Then click on **Project Settings**
 
 ![]({{site.baseurl}}assets/images/docu/groups_editapp.png)
 
-* In the settings page scroll down to the section `WEB HOOKS` and click the `Add endpoint` button, this will show a modal
+* In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal
 where the endpoint values can be entered
 ![]({{site.baseurl}}assets/images/docu/webhook_settings.png)
 
 The values should be configured to match the preceding curl request. To be sure, please ensure the following
-- `POST` is selected as http method
-- `JSON` is selected in the body tab
-- `{"event_type":"applanga-pull"}` is entered in the `Request body`
+- **POST** is selected as http method
+- **JSON** is selected in the body tab
+- `{"event_type":"applanga-pull"}` is entered in the **Request body**
 
 ![]({{site.baseurl}}assets/images/docu/webhook_endpoint_header.png)
 
 ![]({{site.baseurl}}assets/images/docu/webhook_endpoint_body.png)
 
-You can test the configured endpoint to make sure everything works well by clicking the `Test endpoint` button top right.
+You can test the configured endpoint to make sure everything works well by clicking the **Test endpoint** button top right.
 If the config is done correctly the test result should look like the screeshot below
 
 ![]({{site.baseurl}}assets/images/docu/webhook_endpoint_test.png)
 
-Click `Save endpoint` and you're done!.
+Click ***Save endpoint*** and you're done!.
 
 ---
 # Applanga Configuration
