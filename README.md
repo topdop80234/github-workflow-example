@@ -94,25 +94,25 @@ curl -v -H "Accept: application/vnd.github.everest-preview+json" \
 Here are the steps to setup the **Webhook Endpoint**
 * Login to Applanga dashboard and navigate to the project. Then click on **Project Settings**
 
-![]({{site.baseurl}}assets/images/docu/groups_editapp.png)
+![](https://www.applanga.com/assets/images/docu/groups_editapp.png)
 
 * In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal
 where the endpoint values can be entered
-![]({{site.baseurl}}assets/images/docu/webhook_settings.png)
+![](https://www.applanga.com/assets/images/docu/webhook_settings.png)
 
-The values should be configured to match the preceding curl request. To be sure, please ensure the following
+The values should be configured to match the preceding curl request. To be sure, verify the following
 - **POST** is selected as http method
 - **JSON** is selected in the body tab
 - `{"event_type":"applanga-pull"}` is entered in the **Request body**
 
-![]({{site.baseurl}}assets/images/docu/webhook_endpoint_header.png)
+![](https://www.applanga.com/assets/images/docu/webhook_endpoint_header.png)
 
-![]({{site.baseurl}}assets/images/docu/webhook_endpoint_body.png)
+![](https://www.applanga.com/assets/images/docu/webhook_endpoint_body.png)
 
 You can test the configured endpoint to make sure everything works well by clicking the **Test endpoint** button top right.
 If the config is done correctly the test result should look like the screeshot below
 
-![]({{site.baseurl}}assets/images/docu/webhook_endpoint_test.png)
+![](https://www.applanga.com/assets/images/docu/webhook_endpoint_test.png)
 
 Click ***Save endpoint*** and you're done!.
 
