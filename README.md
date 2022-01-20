@@ -135,6 +135,7 @@ The example configuration is set-up to use the `"react_simple_json"` file format
         {
           "file_format": "react_simple_json", 
           "exclude_languages": ["en"],
+	  "tag": "cli-translations",
           "path": "./react_json_sample/<language>/translations.json"
         }
       ]
@@ -144,6 +145,7 @@ The example configuration is set-up to use the `"react_simple_json"` file format
         {
           "language": "en",
           "file_format": "react_simple_json", 
+	  "tag": "cli-translations",
           "path": "./react_json_sample/en/translations.json"
         }
       ]
