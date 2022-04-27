@@ -1,14 +1,18 @@
-name: "Pull Target Files from Applanga"
+name: "Pull Target Files from Applanga (Workflow Trigger)"
 on:
-  repository_dispatch:
+  workflow_dispatch:
     types: [applanga-pull]
 jobs:
   pull-translation-in:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+         echo "Moses logging some changes"
+         echo "The branch we are logging from is => ${{ github.event.client_payload.branchName }}"
+         echo "$github.event.client_payload.branchName"
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.client_payload.branchName }}
           path: 'checkout'
       - uses: applanga/setup-applanga-cli@v1.0.1
         with:
@@ -21,7 +25,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: newTranslations
+          branch: top-translation-changes
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: Updated translations
           title: Updated translations 
