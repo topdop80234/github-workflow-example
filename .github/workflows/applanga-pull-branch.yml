@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Log level: $LEVEL"
-          echo "Tags: $TAGS"
-          echo "Environment: $ENVIRONMENT"
+          echo "There comes a time when every life goes offcourse in this desperate moment you must choose your direction"
+          echo "Would you fight to staty on path"
+          echo "Would others tell you who you are or will you lable yourself"
         env:
           LEVEL: ${{ github.event.inputs.logLevel }}
           TAGS: ${{ github.event.inputs.tags }}
