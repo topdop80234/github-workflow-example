@@ -70,18 +70,18 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-		  branch: newTranslations
-		  author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          branch: newTranslations
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: Updated translations
           title: Updated translations 
           body: Pulled in new translations from Applanga portal
           path: 'checkout'
 ```
 
-****Caveat** The preceding workflow only gets run on the default branch, this is because the `repository_dfispatch` event does not get triggered for a non default branch. More information on this can be found in the following  [github issues page](https://github.community/t/how-to-trigger-repository-dispatch-event-for-non-default-branch/14470).
-However there is a way to run achieve this using the `workflow_dispatch` event described [here](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch). For this to work though the configuration file has to first be created from the default branch. In other words start first by adding the workflow file to the `master` branch of the repository, which allows github to pick up the workflow. Next you can create a branch of the master branch and update the workflow file as needed. See the following sample workflow config below.
+****Caveat** The preceding workflow only gets run on the default branch, this is because the `repository_dispatch` event does not get triggered for a non default branch. More information on this can be found in the following  [github issues page](https://github.community/t/how-to-trigger-repository-dispatch-event-for-non-default-branch/14470).
+However there is a way to achieve this using the `workflow_dispatch` event described [here](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch). For this to work though the configuration file has to first be created from the default branch. In other words start first by adding the workflow file to the `master` branch of the repository, which allows github to pick up the workflow. Next you can create a branch of the master branch and update the workflow file as needed. See the following sample workflow config below.
 
-[.github/workflows/applanga-pull-branch.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull-branch.yml) To run this workflow an api request should be made to Github specifying either the file name(`applanga-pull-branch.yml`) or workflow id. Please refer to [Configure Webhook Endpoint to trigger workflow in a branch](#configure-webhook-endpoint-branch) for a detailed example of how to do this.
+[.github/workflows/applanga-pull-branch.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull-branch.yml) To run this workflow an api request should be made to Github specifying either the file name(`applanga-pull-branch.yml`) or workflow id. Please refer to [Configure Webhook Endpoint to trigger workflow in a branch](#configure-webhook-endpoint-to-trigger-workflow-in-a-branch) for a detailed example of how to do this.
 
 ```yaml
 name: "Pull Target Files from Applanga on specific branch"
@@ -124,15 +124,14 @@ Here are the steps to setup the **Webhook Endpoint**
 
 ![](https://www.applanga.com/assets/images/docu/groups_editapp.png)
 
-* In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal
-where the endpoint values can be entered
+* In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal where the endpoint values can be entered
 ![](https://www.applanga.com/assets/images/docu/webhook_settings.png)
 
-The values should be configured to match the preceding curl request. To be sure, verify the following
-- **URL** From the sample postman request above the url looks like so `https://api.github.com/repos/:owner/:repo/dispatches`. Notice the placeholder values `:owner`(github username) and `:repo`(repository name) should be replaced with the correct value for your usecase.
+The values should be configured as follows
+- **URL** Insert the following endpoint `https://api.github.com/repos/<owner>/<repo>/dispatches`. Notice the placeholder values `<owner>`(github username) and `<repo>`(repository name) should be replaced with the correct value for your usecase.
 - **POST** is selected as http method
-- **Headers** Notice in the screenshot below that 2 headers were set, they are `Authorization` and `Accept`. The `Authorization` header value is a valid github access token with repository permissions combined like so `token <Access token>`. For example if you had an access token `ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv` then the Authorization header would be set like so `token ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv`. Please refer to the following github documentation https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token on how to generate an access token.
-- **JSON** is selected in the body tab
+- **Headers** Notice in the screenshot below that 2 headers were set, they are `Authorization` and `Accept`. The `Authorization` header value is a valid github access token with repository permissions combined like so `token <Access token>`. For example if you had an access token `ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv` then the Authorization header would be set like so `token ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv`. Please refer to the following github documentation [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) on how to generate an access token.
+- **JSON** should be selected in the body tab
 - `{"event_type":"applanga-pull"}` is entered in the **Request body**
 
 ![](https://www.applanga.com/assets/images/docu/webhook_endpoint_header.png)
@@ -153,10 +152,10 @@ You can find more information on creating a github repository dispatch event via
 ## Configure Webhook Endpoint to trigger workflow in a branch
 To configure a webhook endpoint to trigger a workflow in a specific branch follow these steps
 
-* In the settings page scroll down to the section **WEB HOOKS** and click the Add endpoint button, this will show a modal where the endpoint values can be entered
-* Set the http method to *POST* and enter the endpoint url as follows `https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}`. The following values `{owner}`, `{repo}` and `{workflow_id}` should be replaced with the correct values. The `workflow_id` can be the id of the workflow you want to trigger or the name of the workflow instead.
+* In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal where the endpoint values can be entered
+* Set the http method to *POST* and enter the endpoint url as follows `https://api.github.com/repos/<owner>/<repo>/actions/workflows/{workflow_id}`. The following values `<owner>`, `<repo>` and `{workflow_id}` should be replaced with the correct values. The `workflow_id` can be the id of the workflow you want to trigger or the name of the workflow instead.
 To get the list of workflows for a repository a GET request should be made to the following endpoint
-https://api.github.com/repos/OWNER/REPO/actions/workflows, note that `OWNER` and `REPO` should be replaced with the correct values. More information on this endpoint can be found [here](https://docs.github.com/en/rest/actions/workflows#list-repository-workflows). Find a sample curl request and response below
+`https://api.github.com/repos/OWNER/REPO/actions/workflows`, note that `OWNER` and `REPO` should be replaced with the correct values. More information on this endpoint can be found [here](https://docs.github.com/en/rest/actions/workflows#list-repository-workflows). Find a sample curl request and response below
 
 ```curl
 curl --location --request GET 'https://api.github.com/repos/oaks-view/github-workflow-example/actions/workflows' \
@@ -215,7 +214,7 @@ In case the workflow name is used instead a sample url would look like so
 
 ![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_endpoint_url.png)
 
-* **Headers** You need to set the following headers, `Authorization` and `Accept`. The `Authorization` header value is a valid github access token with repository permissions combined like so `token <Access token>`. For example if you had an access token `ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv` then the Authorization header would be set like so `token ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv`. Please refer to the following github documentation https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token on how to generate an access token.
+* **Headers** You need to set the following headers, `Authorization` and `Accept`. The `Authorization` header value is a valid github access token with repository permissions combined like so `token <Access token>`. For example if you had an access token `ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv` then the Authorization header would be set like so `token ghp_zWAdtUqmtFTY7qkqJS1wmuEx6t4X0SpIPv`. Please refer to the following github [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) on how to generate an access token.
 ![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_headers.png)
 
 * **Body** Click the **Body** tab and select **JSON**. A raw JSON text will be pasted in the textbox that contains the field `ref` which should be set to the name of the branch in which the workflow is intended to be triggered. For example if the workfow should be triggered in a branch named `staging` then the text to be pasted would be as follows
