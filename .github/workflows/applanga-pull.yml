@@ -1,7 +1,5 @@
 name: "Pull Target Files from Applanga"
-on:
-  repository_dispatch:
-    types: [applanga-pull]
+on: workflow_dispatch
 jobs:
   pull-translation-in:
     runs-on: ubuntu-latest
