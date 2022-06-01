@@ -41,14 +41,16 @@ jobs:
         working-directory: checkout
 ```
 
-[.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) pulls new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. For this to work a **Webhook Endpoint** has to be configured for the project on Applanga dashboard to trigger the workflow. See [Configure Webhook Endpoint](#configure-webhook-endpoint) below for how to configure 
+Note that for the above workflow file the `Applanga Push Action` will only get triggered when there is a push to the `master` branch as specified in the config. It is also possible to specify a different branch or add more branches as needed.
+
+[.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) pulls new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. The workflow configuration is configured to run on any given branch. To set this up successfully there are 2 important requirements
+1. The workflow file must first be created from the default branch. In other words start first by adding the workflow file to the `master` or `main` branch(whichever is the default) of the repository, which allows github to pick up the workflow. This is a github limitation, and more info can be found on the following github [issue](https://github.community/t/workflow-dispatch-event-not-working/128856/2)
+2. A **Webhook Endpoint** has to be configured for the project on Applanga dashboard to trigger the workflow. See [Configure Webhook Endpoint](#configure-webhook-endpoint) below for how to configure 
 a webhook endpoint.
 
 ```yaml
 name: "Pull Target Files from Applanga"
-on:
-  repository_dispatch:
-    types: [applanga-pull]
+on: workflow_dispatch
 jobs:
   pull-translation-in:
     runs-on: ubuntu-latest
@@ -68,62 +70,60 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-		  branch: newTranslations
-		  author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          branch: newTranslations
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: Updated translations
           title: Updated translations 
           body: Pulled in new translations from Applanga portal
           path: 'checkout'
 ```
 
+
 ---
 ## Configure Webhook Endpoint
-To the trigger the `applanga-pull` workflow a webhook endpoint has to configured in the projects settings page on applanga. 
+To the trigger the `applanga-pull` workflow a webhook endpoint has to be configured in the projects settings page on applanga. 
 
 The webhook is triggered at least 15 minutes from when there is no translation change. This means whenever translation is added or edited a webhook request is scheduled to be sent to all configured endpoints for the project 15 minutes later. The scheduled request will be sent as planned unless there is a new change to translation before the scheduled time, in which case it is rescheduled to be sent 15 minutes later.
-
-The endpoint should be configured to match the following `Github REST API` post request:
-
-```shell
-curl -v -H "Accept: application/vnd.github.everest-preview+json" \
-        -H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
-        https://api.github.com/repos/:owner/:repo/dispatches \
-        -d '{"event_type":"applanga-pull"}'
-```
 
 Here are the steps to setup the **Webhook Endpoint**
 * Login to Applanga dashboard and navigate to the project. Then click on **Project Settings**
 
 ![](https://www.applanga.com/assets/images/docu/groups_editapp.png)
 
-* In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal
-where the endpoint values can be entered
+* In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal where the endpoint values can be entered
 ![](https://www.applanga.com/assets/images/docu/webhook_settings.png)
 
-The values should be configured to match the preceding curl request. To be sure, verify the following
-- **POST** is selected as http method
-- **JSON** is selected in the body tab
-- `{"event_type":"applanga-pull"}` is entered in the **Request body**
+* Set the http method to *POST* and enter the endpoint url as follows `https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/applanga-pull.yml`. The following values `<OWNER>` and `<REPO>` should be replaced with the correct values.
 
-![](https://www.applanga.com/assets/images/docu/webhook_endpoint_header.png)
+Please refer to the following screenshot 
 
-![](https://www.applanga.com/assets/images/docu/webhook_endpoint_body.png)
+![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_endpoint_url.png)
 
-You can test the configured endpoint to make sure everything works well by clicking the **Test endpoint** button top right.
-If the config is done correctly the test result should look like the screeshot below
+* **Headers** You need to set an `Authorization` header. The `Authorization` header value is a valid github personal access token with repository permissions combined like so `token <GH_PERSONAL_ACCESS_TOKEN>` where `<GH_PERSONAL_ACCESS_TOKEN>` is the personal access token generated on github. For example if you had an access token `ghp_zWAdtUqmtFTY7qkqJS1wmuEx8ytX0SpIPv` then the Authorization header would be set like so `token ghp_zWAdtUqmtFTY7qkqJS1wmuEx8ytX0SpIPv`. Please refer to the following github [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) on how to generate an access token.
+![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_headers.png)
 
-![](https://www.applanga.com/assets/images/docu/webhook_endpoint_test.png)
+* **Body** Click the **Body** tab and select **JSON**. A raw JSON text will be pasted in the textbox that contains the field `ref` which should be set to the name of the branch in which the workflow is intended to be triggered. For example if the workfow should be triggered in a branch named `staging` then the text to be pasted would be as follows
 
-Click ***Save endpoint*** and you're done!.
+```
+{
+  "ref": "staging"
+}
+```
+
+Next click **Save endpoint**.
+
+![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_body.png)
+
+For more information about triggering a workflow dispatch event via REST Api check [here](https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event).
 
 ---
 # Applanga Configuration
 
 Because the workflows make use of the [Applanga Command Interface](https://github.com/applanga/applanga-cli) you also need to add a [.applanga.json](https://github.com/applanga/github-workflow-example/blob/master/.applanga.json) configuration file to your repository. 
 
-To uniqly identify your project you need to provide your ***API Access Token*** which can be found on the **API** section in the Applanga Project Settings in the [Applanga Dashboard](https://dashboard.applanga.com). Select your project, click ***Project Settings***, click on **“Show API Token”** and copy the Token. The token can be stored as a [Encrypted Repository Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) labeled **APPLANGA\_ACCESS\_TOKEN** or as plain text directly in the config e.g.: `"app": { "access_token": "<YOUR_API_TOKEN>", ... }`.
+To uniqly identify your project you need to provide your ***API Access Token*** which can be found on the **API** section in the Applanga Project Settings in the [Applanga Dashboard](https://dashboard.applanga.com). Select your project, click ***Project Settings***, click on **“Show API Token”** and copy the Token. The token can be stored as a [Encrypted Repository Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) labeled **APPLANGA\_ACCESS\_TOKEN** or as plain text directly in the config e.g.: `"app": { "access_token": "<APPLANGA_API_TOKEN>", ... }`.
 
-The included config is set-up to push all changes to `translations.json` file under the directory `react_json_sample/en/` to Applanga and pull all other languages from Applanga as well as create the needed directorys on the daily schedule or via the commandline request as described above.
+The included config is set-up to push all changes to `translations.json` file under the directory `react_json_sample/en/` to Applanga and pull all other languages from Applanga as well as create the needed directories on the daily schedule or via the commandline request as described above.
 
 The example configuration is set-up to use the `"react_simple_json"` file format but Applanga supports a wide variety of other file formats and folder structures. Also the example works with only one file per language if you need to support more you need to provide a `tag` per file for details on that and more see the [Applanga CLI Documentation](https://github.com/applanga/applanga-cli).
 
