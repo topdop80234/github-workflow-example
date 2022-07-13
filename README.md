@@ -93,7 +93,7 @@ Here are the steps to setup the **Webhook Endpoint**
 * In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal where the endpoint values can be entered
 ![](https://www.applanga.com/assets/images/docu/webhook_settings.png)
 
-* Set the http method to *POST* and enter the endpoint url as follows `https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/applanga-pull.yml`. The following values `<OWNER>` and `<REPO>` should be replaced with the correct values.
+* Set the http method to *POST* and enter the endpoint url as follows `https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/applanga-pull.yml/dispatches`. The following values `<OWNER>` and `<REPO>` should be replaced with the correct values.
 
 Please refer to the following screenshot 
 
