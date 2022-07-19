@@ -91,6 +91,7 @@ Here are the steps to setup the **Webhook Endpoint**
 ![](https://www.applanga.com/assets/images/docu/groups_editapp.png)
 
 * In the settings page scroll down to the section **WEB HOOKS** and click the **Add endpoint** button, this will show a modal where the endpoint values can be entered
+
 ![](https://www.applanga.com/assets/images/docu/webhook_settings.png)
 
 * Set the http method to *POST* and enter the endpoint url as follows `https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/applanga-pull.yml/dispatches`. The following values `<OWNER>` and `<REPO>` should be replaced with the correct values.
@@ -100,6 +101,7 @@ Please refer to the following screenshot
 ![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_endpoint_url.png)
 
 * **Headers** You need to set an `Authorization` header. The `Authorization` header value is a valid github personal access token with repository permissions combined like so `token <GH_PERSONAL_ACCESS_TOKEN>` where `<GH_PERSONAL_ACCESS_TOKEN>` is the personal access token generated on github. For example if you had an access token `ghp_zWAdtUqmtFTY7qkqJS1wmuEx8ytX0SpIPv` then the Authorization header would be set like so `token ghp_zWAdtUqmtFTY7qkqJS1wmuEx8ytX0SpIPv`. Please refer to the following github [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) on how to generate an access token.
+
 ![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_headers.png)
 
 * **Body** Click the **Body** tab and select **JSON**. A raw JSON text will be pasted in the textbox that contains the field `ref` which should be set to the name of the branch in which the workflow is intended to be triggered. For example if the workfow should be triggered in a branch named `staging` then the text to be pasted would be as follows
