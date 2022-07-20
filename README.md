@@ -15,7 +15,7 @@ The [repository](https://github.com/applanga/github-workflow-example) contains 2
 
 [.github/workflows/applanga-push.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-push.yml) will push any `.json` source files under the directory `react_json_sample/en/` to Applanga whenever they are changed in the repository. Depending on your folder structure and file format you need to modify the `paths` for your repository workflow config.
 
-Note that for the above workflow file the `Applanga Push Action` will only get triggered when there is a push to the `master` branch as specified in the config. It is also possible to specify a different branch or add more branches as needed.
+Note that for the above workflow file the `Applanga Push Action` will only get triggered when there is a push to the `main` branch as specified in the config. It is also possible to specify a different branch or add more branches as needed.
 
 [.github/workflows/applanga-pull.yml](https://github.com/applanga/github-workflow-example/blob/master/.github/workflows/applanga-pull.yml) pulls new translations available from Applanga and then creates a pull request in the repo with the newly added languages or updated translation files. The workflow configuration is configured to run on any given branch. To set this up successfully there are 2 important requirements
 1. The workflow file must first be created from the default branch. In other words start first by adding the workflow file to the `master` or `main` branch(whichever is the default) of the repository, which allows github to pick up the workflow. This is a github limitation, and more info can be found on the following github [issue](https://github.community/t/workflow-dispatch-event-not-working/128856/2)
@@ -47,11 +47,11 @@ Please refer to the following screenshot
 
 ![](https://www.applanga.com/assets/images/docu/webhook_branch_trigger_headers.png)
 
-* **Body** Click the **Body** tab and select **JSON**. A raw JSON text will be pasted in the textbox that contains the field `ref` which should be set to the name of the branch in which the workflow is intended to be triggered. For example if the workfow should be triggered in a branch named `staging` then the text to be pasted would be as follows
+* **Body** Click the **Body** tab and select **JSON**. A raw JSON text should be pasted in the textbox that contains the field `ref` which should be set to the name of the branch in which the workflow is intended to be triggered. For example if the workfow should be triggered in a branch named `main` then the text to be pasted would be as follows
 
 ```
 {
-  "ref": "staging"
+  "ref": "main"
 }
 ```
 
