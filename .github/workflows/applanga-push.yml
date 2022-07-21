@@ -2,7 +2,7 @@ name: "Push Source Files to Applanga"
 on:
  push:
    branches:
-     - master
+     - main
    paths:
      - react_json_sample/en/*.json
    
