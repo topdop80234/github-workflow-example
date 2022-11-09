@@ -22,6 +22,8 @@ Note that for the above workflow file the `Applanga Push Action` will only get t
 2. A **Webhook Endpoint** has to be configured for the project on Applanga dashboard to trigger the workflow. See [Configure Webhook Endpoint](#configure-webhook-endpoint) below for how to configure 
 a webhook endpoint.
 
+Note that if you are already having a project setup on Applanga and you want to test the pull command, all key's that you want to pull should be tagged with `app:translations.json`, because of the current Cli configuration example. For more info see the [Applanga Cli documentation](https://www.applanga.com/docs/integration-documentation/cli).
+
 ---
 ## Configure Webhook Endpoint
 To the trigger the `applanga-pull` workflow a webhook endpoint has to be configured in the projects settings page on applanga. 
